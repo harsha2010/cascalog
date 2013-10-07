@@ -1,0 +1,26 @@
+PRODUCT_NAME = cascalog-core
+
+SHORT_DESC = Cascalog Packaging For Yahoo!.
+LONG_DESC = `cat README`
+
+CUSTODIAN = harshars@yahoo-inc.com https://git.corp.yahoo.com/mlas/cascalog.git
+
+#YMAVEN_TRANSITIVE_ENABLED
+
+# Pick up version number from the README file
+VERSION = `awk '/^Version/ {print $2; exit}' README`
+
+TAPS_HOME = libexec/$(PRODUCT_NAME)-$(VERSION)
+
+YINST bug-product miner CORE libraries
+YINST bug-component General
+
+SRCDIRS = ..
+
+PACKAGE_OS_SPECIFIC = no
+
+
+file 0755 - - $(TAPS_HOME)/taps-$(VERSION).pom ../pom.xml 
+find 0755 - - $(TAPS_HOME)/jars/ ../target/ -name "*.jar" -type f
+
+symlink - - - libexec/$(PRODUCT_NAME) $(PRODUCT_NAME)-$(VERSION)/
